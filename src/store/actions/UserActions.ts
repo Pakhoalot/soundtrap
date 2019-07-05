@@ -11,7 +11,7 @@ export function fetchUserProfilesSucess(id: string, profile: User): fetchUserPro
   }
 }
 
-export function fetchUserProfiles(userId: string): FetchUserProfilesThunkAction {{
+export function fetchUserProfiles(userId: string): FetchUserProfilesThunkAction {
   return async (dispatch) => {
     try {
       const result = await getUserById(userId);
@@ -20,4 +20,4 @@ export function fetchUserProfiles(userId: string): FetchUserProfilesThunkAction 
       console.log(error);
     }
   }
-}}
+}

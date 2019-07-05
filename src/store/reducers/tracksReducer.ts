@@ -1,30 +1,34 @@
-import { CHANGE_TIME,CHANGE_GENRE } from './../../constants/ActionTypes';
-import { GENRES, TIMES } from '../../constants/PlaylistConstants';
-import { SongFilterAction } from '../../shared/types/actions';
+import { FETCH_TRACKS_FAILURE, FETCH_TRACK_SUBRESOURCE_FAILURE, FETCH_TRACKS_SUCESS } from './../../constants/ActionTypes';
+import { TrackActionTypes } from './../../shared/types/actions';
+import { Track } from "../../shared/types/soundCloud";
+import { FETCH_TRACK_FAILURE } from '../../constants/ActionTypes';
 
-const initialState = {
-  activeGenreIndex: -1,
-  activeTimeIndex: -1,
-  genres: GENRES,
-  times: TIMES
 
+interface stateInterface {
+  tracks: Track[];
+  activeTrackId: string;
+}
+
+const initialState: stateInterface = {
+  tracks: [],
+  activeTrackId: ''
 };
 
-export default function songsFilterReducer(
+export default function tracksReducer(
   state = initialState,
-  action: SongFilterAction,
+  action: TrackActionTypes,
 ): typeof initialState {
   switch (action.type) {
-    case CHANGE_GENRE: 
+    case FETCH_TRACKS_SUCESS:
       return {
         ...state,
-        activeGenreIndex: action.activeIndex,
+        tracks: [...state.tracks, ...action.tracks],
       }
-    case CHANGE_TIME: 
-      return {
-        ...state,
-        activeTimeIndex: action.activeIndex,
-      }
+    case FETCH_TRACK_FAILURE:
+    case FETCH_TRACKS_FAILURE:
+    case FETCH_TRACK_SUBRESOURCE_FAILURE:
+      console.log(action.error);
+      return state;
     default:
       return state;
   }

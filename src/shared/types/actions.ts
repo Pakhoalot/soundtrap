@@ -8,7 +8,9 @@ import {
   FETCH_TRACKS_SUCESS,
   FETCH_TRACKS_FAILURE,
   FETCH_TRACK_SUCESS,
-  FETCH_TRACK_FAILURE
+  FETCH_TRACK_FAILURE,
+  FETCH_TRACK_SUBRESOURCE_SUCESS,
+  FETCH_TRACK_SUBRESOURCE_FAILURE
 } from './../../constants/ActionTypes';
 import {
   WINDOW_RESIZE,
@@ -142,6 +144,15 @@ export interface FetchTracksFailureAction extends FetchFailureAction<Error> {
   type: typeof FETCH_TRACKS_FAILURE;
 }
 
+export interface FetchTrackSubresSucessAction {
+  type: typeof FETCH_TRACK_SUBRESOURCE_SUCESS;
+  subResource: User | User[] | Comment | Comment[];
+}
+
+export interface FetchTrackSubresFailureAction  extends FetchFailureAction<Error> {
+  type: typeof FETCH_TRACK_SUBRESOURCE_FAILURE;
+}
+
 export type FetchTrackThunkAction = ThunkAction<
   void,
   AppState,
@@ -155,11 +166,16 @@ export type FetchTracksThunkAction = ThunkAction<
   null,
   FetchTracksSucessAction | FetchTracksFailureAction
 >;
-
+export type FetchTracksSubresThunkAction = ThunkAction<
+  void,
+  AppState,
+  null,
+  FetchTrackSubresSucessAction | FetchTrackSubresFailureAction
+>;
 export type TrackActionTypes =
   | FetchTrackSucessAction
   | FetchTrackFailureAction
   | FetchTracksSucessAction
   | FetchTracksFailureAction
-  | FetchTrackThunkAction
-  | FetchTracksThunkAction;
+  | FetchTrackSubresSucessAction
+  | FetchTrackSubresFailureAction

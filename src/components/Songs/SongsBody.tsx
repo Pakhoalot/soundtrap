@@ -1,4 +1,4 @@
-import React, { Component, ReactNodeArray, ReactNode } from 'react'
+import React, { Component, ReactNodeArray } from 'react'
 import Loader from '../Loader';
 import SongsBodyCard from './SongsBodyCard';
 import { Track } from '../../shared/types/soundCloud';

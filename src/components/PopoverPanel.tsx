@@ -1,4 +1,4 @@
-import React, { Component, EventHandler, MouseEventHandler } from 'react';
+import React, { Component } from 'react';
 
 type PopoverPanelProps = {
   toggleIsOpen: () => void;

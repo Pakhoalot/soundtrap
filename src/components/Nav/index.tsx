@@ -6,9 +6,9 @@ import NavUserContainer from '../../containers/NavUserContainer';
 
 export default class Nav extends React.Component {
   render() {
-    const {
+    // const {
       
-    } = this.props;
+    // } = this.props;
     return (
       <div className="nav">
         <div className="nav__inner container">

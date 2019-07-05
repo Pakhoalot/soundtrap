@@ -14,10 +14,10 @@ export function getTrackById(trackId: string): Promise<Track> {
   })
 }
 
-export function getTracks(args: {
+export function getTracks(args?: {
   filters?: TrackFilters;
 }) {
-  const { filters } = args;
+  const filters = args ? args.filters : null;
   return $axios
     .get(TRACKS_URL, {
       params: {

@@ -18,7 +18,7 @@ export default class SongsBodyCard extends Component<Props> {
       song,
     } = this.props;
 
-    const { artworkUrl, id, title, user } = song;
+    const { artworkUrl, title, user } = song;
     const { avatarUrl, username } = user as any;
     return (
       <div className={`songs-body-card ${

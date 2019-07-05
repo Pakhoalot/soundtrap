@@ -5,7 +5,7 @@ import { NavUserProps } from '../../containers/NavUserContainer';
 export default class NavUser extends Component<NavUserProps> {
   render() {
     const {
-      login,
+      // login,
       fetchUserProfiles,
     } = this.props;
     if (false) {

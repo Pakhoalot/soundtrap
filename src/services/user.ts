@@ -1,4 +1,4 @@
-import { User, SCError, UserFilters } from './../shared/types/soundCloud';
+import { User, UserFilters } from './../shared/types/soundCloud';
 import {
   CLIENT_ID,
   USER_URL,

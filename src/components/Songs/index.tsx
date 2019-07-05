@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import InfiniteScroll from '../InfiniteScroll';
-import SongsBody from './SongsBody';
 import SongsHeaderContainer from '../../containers/SongsHeaderContainer';
 import SongsBodyContainer from '../../containers/SongsBodyContainer';
 

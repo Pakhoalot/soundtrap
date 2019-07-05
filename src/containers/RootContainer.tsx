@@ -5,7 +5,7 @@ import Root from '../components/Root';
 import { initEnvironment } from '../store/actions/EnvironmentActions';
 import { initAuth } from '../store/actions/SessionActions';
 import { AppState } from '../shared/types/states';
-import { bindActionCreators, AnyAction } from 'redux';
+import { bindActionCreators } from 'redux';
 import { MyThunkDispatch } from '../shared/types/common';
 
 

@@ -1,6 +1,5 @@
 import React, { Component, ReactNodeArray } from 'react'
 import PopoverPanel from './PopoverPanel';
-import { ReactReduxContext } from 'react-redux';
 
 type PopoverProps = {
   className?: string;

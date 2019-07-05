@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { GENRES } from '../../constants/PlaylistConstants';
 
 type State = {
@@ -57,7 +56,7 @@ export default class SongsHeaderGenres extends Component<Props, State> {
             >
               <a 
                 className="songs-header__genre__text"
-                
+                href="/"
                >
                 { gen.key }
               </a>
