@@ -5,7 +5,8 @@ import { NavUserProps } from '../../containers/NavUserContainer';
 export default class NavUser extends Component<NavUserProps> {
   render() {
     const {
-      login
+      login,
+      fetchUserProfiles,
     } = this.props;
     if (false) {
       return (
@@ -31,7 +32,7 @@ export default class NavUser extends Component<NavUserProps> {
           <div className="nav-user__popover-content">
             <div
               className="button button--orange button--block button--margin"
-              onClick={ login }
+              onClick={ () => fetchUserProfiles('3223432432507') }
               role="button"
               tabIndex={0}
               >

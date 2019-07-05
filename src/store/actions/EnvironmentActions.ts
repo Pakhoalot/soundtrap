@@ -1,5 +1,5 @@
-import { ResizeAction, InitEnvironmentThunkAction } from './../shared/types/actions';
-import { WINDOW_RESIZE } from '../constants/ActionTypes';
+import { ResizeAction, InitEnvironmentThunkAction } from '../../shared/types/actions';
+import { WINDOW_RESIZE } from '../../constants/ActionTypes';
 
 export function windowResize(height: number, width: number): ResizeAction {
   return {

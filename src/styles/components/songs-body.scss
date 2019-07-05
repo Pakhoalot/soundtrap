@@ -1,0 +1,22 @@
+.songs-body {
+
+}
+
+.songs-body__padder {
+  padding-top: 20px;
+}
+
+
+.songs-body__main {
+  margin: 0 20px;
+  @include mobile {
+    margin: 0;
+  }
+}
+
+.songs-body__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+

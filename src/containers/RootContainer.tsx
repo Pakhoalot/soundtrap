@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Root from '../components/Root';
-import { initEnvironment } from '../actions/EnvironmentActions';
-import { initAuth } from '../actions/SessionActions';
+import { initEnvironment } from '../store/actions/EnvironmentActions';
+import { initAuth } from '../store/actions/SessionActions';
 import { AppState } from '../shared/types/states';
 import { bindActionCreators, AnyAction } from 'redux';
 import { MyThunkDispatch } from '../shared/types/common';

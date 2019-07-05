@@ -1,0 +1,118 @@
+.songs-header {
+  background-color: $white;
+}
+
+.songs-header__inner {
+  
+}
+.songs-header__sections {
+  display: flex;
+  flex-wrap: nowrap;
+
+  .songs-header__section--genres {
+    flex-grow: 1;
+  }
+  .songs-header__section--time {
+    flex-shrink: 0;
+  }
+}
+
+.songs-header__genres {
+  border-bottom: $lighterGray 1px solid;
+  div[role="button"] {
+    display: none;
+  }
+  
+  .songs-header__genres__main {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .songs-header__genre,
+  .songs-header__genre--active {
+    display: inline-block;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .songs-header__genre,
+  .songs-header__genre--active {
+    border-right: $lighterGray 1px solid;
+    
+    line-height: 41px;
+    height: 43px;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    
+
+    .songs-header__genre__text {
+      text-decoration: none;
+      padding: 0 10px;
+      color: $gray;
+      font: $fontFamily;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    
+  }
+  .songs-header__genre--active {
+    background-color: $lighterGray;
+    border-bottom: 2px solid $lighterBlack;
+    cursor: pointer;
+    .songs-header__genre__text {
+      color: $white;
+    }
+  }
+
+  .songs-header__genre:hover {
+    border-bottom: 2px solid $lighterBlack;
+  }
+}
+
+
+.songs-header__times {
+  border-bottom: $lighterGray 1px solid;
+  .songs-header__times__inner {
+    .songs-header__times__icon {
+      color: $gray;
+      padding: 0px 10px;
+    }
+    .songs-header__time,
+    .songs-header__time--active {
+      line-height: 41px;
+      height: 43px;
+      box-sizing: border-box;
+      display: inline-block;
+      .songs-header__time__text {
+        text-decoration: none;
+        color: $gray;
+        font-size: 11px;
+        text-transform: uppercase;
+        padding: 0 10px;
+        }
+    }
+
+    .songs-header__time--active {
+      border-bottom: 2px solid $lighterBlack;
+      background-color: $lighterGray;
+      .songs-header__time__text {
+        color: $white;
+      }
+    }
+
+    .songs-header__time:hover {
+      border-bottom: 2px solid $lighterBlack;
+    }
+
+  }
+}
+
+.songs-header__genre,
+.songs-header__genre--active,
+.songs-header__genre__text,
+.songs-header__time,
+.songs-header__time--active,
+.songs-header__time__text {
+  transition: color ease-in .2s;
+}

@@ -1,4 +1,4 @@
-import { CLIENT_ID } from './../constants/ApiConstants';
+import { CLIENT_ID } from '../../constants/ApiConstants';
 import {
   FetchNewStreamSongsSucessAction,
   FetchNewStreamSongsFailAction,
@@ -6,15 +6,16 @@ import {
   LoginThunkAction,
   LogoutThunkAction,
   InitAuthThunkAction
-} from './../shared/types/actions';
+} from '../../shared/types/actions';
 import {
   FETCH_NEW_STREAM_SONGS_SUCCESS,
   FETCH_NEW_STREAM_SONGS_FAIL,
   LOGIN_SUCCESS,
   LOGOUT
-} from './../constants/ActionTypes';
+} from '../../constants/ActionTypes';
 import Cookies from 'js-cookie';
-import { callApi, loginToSoundCloud } from '../utils/ApiUtil';
+import { callApi } from '../../utils/ApiUtil';
+import { loginToSoundCloud } from '../../services/auth';
 
 const COOKIE_PATH = 'oauthToken';
 

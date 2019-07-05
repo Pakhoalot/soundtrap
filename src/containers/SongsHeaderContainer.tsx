@@ -4,37 +4,42 @@ import { MyThunkDispatch } from '../shared/types/common';
 import SongsHeader from '../components/Songs/SongsHeader';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { GENRES, TIMES } from '../constants/PlaylistConstants';
-
+import { changeGenre, changeTime } from '../store/actions/SongsFilterActions';
 
 const mapStateToProps = (state: AppState) => {
   return {
-    genres: GENRES,
-    times: TIMES
+    ...state.songsFilter,
   };
 };
 
 const mapDispatchToProps = (dispatch: MyThunkDispatch) =>
-  bindActionCreators({}, dispatch);
+  bindActionCreators({
+    changeGenre,
+    changeTime,
+  }, dispatch);
 
 export type SongsHeaderContainerProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
 export class SongsHeaderContainer extends Component<SongsHeaderContainerProps> {
-  state = {
-    activeGenreIndex: -1,
-    activeTimeIndex: -1,
-  }
-
+  
   render() {
-    const { activeGenreIndex, activeTimeIndex } = this.state;
-    const { genres, times } = this.props;
+    const { 
+      genres,
+      times,
+      activeGenreIndex,
+      activeTimeIndex,
+      changeGenre,
+      changeTime,
+    } = this.props;
     return (
     <SongsHeader 
       activeGenreIndex={ activeGenreIndex }
       activeTimeIndex={ activeTimeIndex }
       genres={ genres }
       times={ times }
+      changeGenre={ changeGenre }
+      changeTime={ changeTime }
       />
     )
   }

@@ -2,3 +2,10 @@ body {
   background-color: #f4f4f4;
   font-family: $fontFamily;
 }
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

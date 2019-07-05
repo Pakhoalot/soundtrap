@@ -1,5 +1,5 @@
-import { LOGIN_SUCCESS, LOGOUT } from './../constants/ActionTypes';
-import { SessionActionTypes } from './../shared/types/actions';
+import { LOGIN_SUCCESS, LOGOUT } from '../../constants/ActionTypes';
+import { SessionActionTypes } from '../../shared/types/actions';
 const initialState = {
   followings: {},
   id: '',

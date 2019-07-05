@@ -1,5 +1,10 @@
 import { BinaryData } from "fs";
 
+export interface SCError {
+  errors: {
+    errorMessage: string;
+  }
+}
 export interface User {
   id?: string;
   permalink?: string;
@@ -24,6 +29,9 @@ export interface User {
   avatarData?: BinaryData;
 }
 
+export interface UserFilters {
+  q?: string; // a string to search for
+}
 export interface Track {
   id?: string;
   createdAt?: Date;
@@ -72,6 +80,22 @@ export interface Track {
   userFavorite?: BinaryData;
 }
 
+export interface TrackFilters {
+  q?: string; // a string to search for
+  tags?: string[];
+  filter?: 'all' | 'public' | 'private';
+  license?: string;
+  'bpm[from]'?: number;
+  'bpm[to]'?: number;
+  'duration[from]'?: number;
+  'duration[to]'?: number;
+  'created_at[from]'?: string;
+  'created_at[to]'?: string;
+  ids: string[];
+  genres: string[];
+  types: string[];
+  
+}
 export interface Playlist {
   id?: string;
   createdAt?: Date;
@@ -100,6 +124,11 @@ export interface Playlist {
   downloadable?: boolean;
   ean?: string;
   playlistType?: string;
+}
+
+export interface PlaylistFilters {
+  q?: string;
+  representation?: string;
 }
 
 export interface Comment {

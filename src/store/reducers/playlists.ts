@@ -1,6 +1,7 @@
-import { PlaylistActionTypes } from './../shared/types/actions';
-import { SESSION_STREAM_PLAYLIST, HISTORY_PLAYLIST } from './../constants/PlaylistConstants';
-import { FETCH_NEW_STREAM_SONGS_SUCCESS, LOAD_NEW_STREAM_SONGS, FETCH_SONGS_REQUEST, PLAY_SONG } from './../constants/ActionTypes';
+import { PlaylistActionTypes } from '../../shared/types/actions';
+import { SESSION_STREAM_PLAYLIST, HISTORY_PLAYLIST } from '../../constants/PlaylistConstants';
+import { FETCH_NEW_STREAM_SONGS_SUCCESS, LOAD_NEW_STREAM_SONGS, FETCH_SONGS_REQUEST, PLAY_SONG } from '../../constants/ActionTypes';
+
 const initalState = {
   isFetching: false,
   items: [],

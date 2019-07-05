@@ -9,6 +9,7 @@ type State = {
 type Props = {
   activeIndex: number;
   genres: typeof GENRES;
+  changeGenre: (i: number) => void;
 };
 
 export default class SongsHeaderGenres extends Component<Props, State> {
@@ -24,7 +25,7 @@ export default class SongsHeaderGenres extends Component<Props, State> {
 
   render() {
     const { expanded } = this.state;
-    const { activeIndex, genres } = this.props;
+    const { activeIndex, genres, changeGenre } = this.props;
     return (
       <div
         className={`songs-header__genres ${
@@ -32,12 +33,16 @@ export default class SongsHeaderGenres extends Component<Props, State> {
         }`}
       >
         <div
-          className="songs-header__genres__active"
+          className="songs-header__genre--active"
           onClick={this.handleClick}
           role="button"
           tabIndex={0}
         >
-          {genres[activeIndex] || 'genre'}
+          { 
+            genres[activeIndex]
+            ? genres[activeIndex].key
+            : 'genre' 
+          }
         </div>
         <div className="songs-header__genres__main">
           {genres.map((gen, index) => (
@@ -46,10 +51,16 @@ export default class SongsHeaderGenres extends Component<Props, State> {
                 activeIndex === index ? 'songs-header__genre--active' : ''
               }`}
               key={gen.key}
+              onClick={ () => {
+                activeIndex === index ? changeGenre(-1): changeGenre(index)
+              } }
             >
-              <Link className="songs-header__genre__text" to="">
+              <a 
+                className="songs-header__genre__text"
+                
+               >
                 { gen.key }
-              </Link>
+              </a>
             </div>
           ))}
         </div>

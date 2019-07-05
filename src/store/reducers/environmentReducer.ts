@@ -1,5 +1,5 @@
-import { EnvironmentActionTypes } from '../shared/types/actions';
-import { WINDOW_RESIZE } from '../constants/ActionTypes';
+import { EnvironmentActionTypes } from '../../shared/types/actions';
+import { WINDOW_RESIZE } from '../../constants/ActionTypes';
 
 
 const initialState = {

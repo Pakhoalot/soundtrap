@@ -28,3 +28,18 @@ export const TOGGLE_REPEAT = 'TOGGLE_REPEAT';
 export const TOGGLE_SHOW_HISTORY = 'TOGGLE_SHOW_HISTORY';
 export const TOGGLE_SHUFFLE = 'TOGGLE_SHUFFLE';
 export const WINDOW_RESIZE = 'WINDOW_RESIZE';
+
+/**
+ * songs header filter actions
+ */
+export const CHANGE_GENRE = 'CHANGE_GENRE';
+export const CHANGE_TIME = 'CHANGE_TIME';
+
+/* 
+ * fetch track actions
+*/
+
+export const FETCH_TRACK_SUCESS = 'FETCH_TRACK_SUCESS';
+export const FETCH_TRACK_FAILURE = 'FETCH_TRACK_FAILURE';
+export const FETCH_TRACKS_SUCESS = 'FETCH_TRACKS_SUCESS';
+export const FETCH_TRACKS_FAILURE = 'FETCH_TRACKS_FAILURE';
