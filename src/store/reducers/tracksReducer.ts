@@ -2,6 +2,8 @@ import { FETCH_TRACKS_FAILURE, FETCH_TRACK_SUBRESOURCE_FAILURE, FETCH_TRACKS_SUC
 import { TrackActionTypes } from './../../shared/types/actions';
 import { Track } from "../../shared/types/soundCloud";
 import { FETCH_TRACK_FAILURE } from '../../constants/ActionTypes';
+import { getImageUrl } from '../../utils/ImageUtils';
+import IMAGE_SIZES from '../../constants/ImageConstants';
 
 
 interface stateInterface {
@@ -20,9 +22,15 @@ export default function tracksReducer(
 ): typeof initialState {
   switch (action.type) {
     case FETCH_TRACKS_SUCESS:
+      const tracks = action.tracks.map(t => {
+        if (t.artworkUrl) {
+          t.artworkUrl = getImageUrl(t.artworkUrl, IMAGE_SIZES.LARGE);
+        }
+        return t;
+      })
       return {
         ...state,
-        tracks: [...state.tracks, ...action.tracks],
+        tracks: [...state.tracks, ...tracks],
       }
     case FETCH_TRACK_FAILURE:
     case FETCH_TRACKS_FAILURE:

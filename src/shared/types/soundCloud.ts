@@ -82,7 +82,7 @@ export interface Track {
 
 export interface TrackFilters {
   q?: string; // a string to search for
-  tags?: string[];
+  tags?: string; //a comma separated list of tags
   filter?: 'all' | 'public' | 'private';
   license?: string;
   'bpm[from]'?: number;
@@ -91,9 +91,11 @@ export interface TrackFilters {
   'duration[to]'?: number;
   'created_at[from]'?: string;
   'created_at[to]'?: string;
-  ids: string[];
-  genres: string[];
-  types: string[];
+  ids?: string;
+  genres?: string; //a comma separated list of genres
+  types?: string;
+  limit?: number;
+  offset?: number;
   
 }
 export interface Playlist {

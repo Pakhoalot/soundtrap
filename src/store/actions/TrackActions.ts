@@ -60,7 +60,6 @@ export function fetchTrack(trackId: string): FetchTrackThunkAction{
 
 export function fetchTracks(options?: TrackFilters): FetchTracksThunkAction{
   return async (dispatch) => {
-    console.log('here');
     try {
       const track = await getTracks({ filters: options });
       dispatch(fetchTracksSucess(track));

@@ -1,30 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Props } from 'react'
 import { MyThunkDispatch } from '../shared/types/common';
 import { bindActionCreators } from 'redux';
 import { AppState } from '../shared/types/states';
 import SongsBody from '../components/Songs/SongsBody';
 import { connect } from 'react-redux';
 import { fetchTracks } from '../store/actions/TrackActions';
-
-// const songs = (() => {
-//   let songMaker = (id: number) => (
-//     {
-//       artworkUrl: '/artwork.jpg',
-//       id: `test-id${id}`,
-//       title: 'testtitle',
-//       user: {
-//         avatarUrl: '/avatar.jpg',
-//         username: 'testname',
-//       }
-//     })
-    
-//   return Array(23).fill(0).map((_, index) => songMaker(index))
-// })();
+import { RouteComponentProps, withRouter } from 'react-router';
 
 const mapStateToProps = (state: AppState) => {
   return {
     songs: state.track.tracks,
     playingSongId: state.track.activeTrackId,
+    activeGenre: state.songsFilter.activeGenreIndex,
+    genres: state.songsFilter.genres,
   }
 }
 
@@ -32,12 +20,34 @@ const mapDispatchToProps = (dispatch: MyThunkDispatch) => bindActionCreators({
   fetchTracks,
 }, dispatch);
 
-export type SongsBodyContainerProps =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+export type SongsBodyContainerProps =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & RouteComponentProps;
 
 class SongsBodyContainer extends Component<SongsBodyContainerProps> {
   
   componentDidMount() {
-    fetchTracks();
+    const { genres, activeGenre, fetchTracks } = this.props;
+    
+
+    fetchTracks({
+      genres: genres[activeGenre]? genres[activeGenre].query: '',
+      limit: 20,
+      offset: 0
+    });
+  }
+
+  // static getDerivedStateFromProps(nextProps: SongsBodyContainerProps, prevState: any) {
+  //   console.log(nextProps, prevState)
+  //   return null;
+  // }
+  componentWillReceiveProps(newProps: SongsBodyContainerProps) {
+    if(newProps.activeGenre === this.props.activeGenre) return;
+    
+    const { fetchTracks, genres, activeGenre } = newProps;
+    // fetchTracks({
+    //   genres: genres[activeGenre]? genres[activeGenre].query: '',
+    //   limit: 20,
+    //   offset: 0
+    // });
   }
 
   render() {
@@ -54,4 +64,4 @@ class SongsBodyContainer extends Component<SongsBodyContainerProps> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongsBodyContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SongsBodyContainer));

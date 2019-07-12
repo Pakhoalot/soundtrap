@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { GENRES } from '../../constants/PlaylistConstants';
+import { Link } from 'react-router-dom';
+import { SONGS_PATH } from '../../constants/RoutePath';
+import qs from 'querystringify';
+
 
 type State = {
   expanded: boolean;
@@ -50,16 +54,18 @@ export default class SongsHeaderGenres extends Component<Props, State> {
                 activeIndex === index ? 'songs-header__genre--active' : ''
               }`}
               key={gen.key}
-              onClick={ () => {
-                activeIndex === index ? changeGenre(-1): changeGenre(index)
-              } }
             >
-              <a 
+              <Link
                 className="songs-header__genre__text"
-                href="/"
+                to={{
+                  pathname: SONGS_PATH,
+                  search: qs.stringify({
+                    genre: gen.key,
+                  })
+                }}
                >
                 { gen.key }
-              </a>
+              </Link>
             </div>
           ))}
         </div>

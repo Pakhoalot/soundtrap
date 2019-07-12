@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { TIMES } from '../../constants/PlaylistConstants';
 import { Link } from 'react-router-dom';
+import queryString from 'querystring';
+import { SONGS_PATH } from '../../constants/RoutePath';
+
 
 type Props = {
   activeIndex: number;
@@ -27,8 +30,12 @@ export default class SongsHeaderTimes extends Component<Props> {
                 } }
                 >
                 <Link
-                  to=""
-                  
+                  to={{
+                    pathname: SONGS_PATH,
+                    search: queryString.stringify({
+                      time: time.key,
+                    })
+                  }}
                   className="songs-header__time__text"
                 >
                   {time.label}
