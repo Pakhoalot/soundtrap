@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { TIMES } from '../../constants/PlaylistConstants';
 import { Link } from 'react-router-dom';
-import queryString from 'querystring';
-import { SONGS_PATH } from '../../constants/RoutePath';
+import { LocationDescriptor } from 'history';
 
 
 type Props = {
   activeIndex: number;
   times: typeof TIMES;
-  changeTime: (i: number) => void;
+  handleLinkTo: (query: string, key: string) => LocationDescriptor;
 };
 
 export default class SongsHeaderTimes extends Component<Props> {
   render() {
-    const { activeIndex, times, changeTime } = this.props;
+    const { activeIndex, times, handleLinkTo } = this.props;
     return (
       <div className="songs-header__times">
         <div className="songs-header__times__inner">
@@ -25,17 +24,9 @@ export default class SongsHeaderTimes extends Component<Props> {
                   index === activeIndex ? 'songs-header__time--active' : ''
                 }`}
                 key={ time.key }
-                onClick={ () =>{
-                  activeIndex === index ?  changeTime(-1): changeTime(index);
-                } }
                 >
                 <Link
-                  to={{
-                    pathname: SONGS_PATH,
-                    search: queryString.stringify({
-                      time: time.key,
-                    })
-                  }}
+                  to={ handleLinkTo('time', time.key) }
                   className="songs-header__time__text"
                 >
                   {time.label}

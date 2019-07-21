@@ -1,6 +1,7 @@
 .container {
   max-width: 1170px;
   margin: 0 auto;
+  margin-bottom: 20px;
 
   @include mobile {
     width: 100%;

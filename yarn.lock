@@ -1297,6 +1297,11 @@
   resolved "https://registry.npm.taobao.org/@types/js-cookie/download/@types/js-cookie-2.2.2.tgz#84e8848e14d44418726ceb52dd887c7bfe45d678"
   integrity sha1-hOiEjhTURBhybOtS3Yh8e/5F1ng=
 
+"@types/lodash@^4.14.136":
+  version "4.14.136"
+  resolved "https://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.136.tgz#413e85089046b865d960c9ff1d400e04c31ab60f"
+  integrity sha1-QT6FCJBGuGXZYMn/HUAOBMMatg8=
+
 "@types/node@*", "@types/node@12.0.8":
   version "12.0.8"
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.0.8.tgz#551466be11b2adc3f3d47156758f610bd9f6b1d8"
@@ -6217,6 +6222,11 @@ lodash.uniq@^4.5.0:
   version "4.17.11"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha1-s56mIp72B+zYniyN8SU2iRysm40=
+
+lodash@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
 
 loglevel@^1.4.1:
   version "1.6.3"

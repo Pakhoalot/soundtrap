@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { GENRES } from '../../constants/PlaylistConstants';
 import { Link } from 'react-router-dom';
-import { SONGS_PATH } from '../../constants/RoutePath';
-import qs from 'querystringify';
+import { LocationDescriptor } from 'history';
 
 
 type State = {
@@ -12,7 +11,7 @@ type State = {
 type Props = {
   activeIndex: number;
   genres: typeof GENRES;
-  changeGenre: (i: number) => void;
+  handleLinkTo: (query:string, key: string) => LocationDescriptor;
 };
 
 export default class SongsHeaderGenres extends Component<Props, State> {
@@ -28,7 +27,7 @@ export default class SongsHeaderGenres extends Component<Props, State> {
 
   render() {
     const { expanded } = this.state;
-    const { activeIndex, genres, changeGenre } = this.props;
+    const { activeIndex, genres, handleLinkTo } = this.props;
     return (
       <div
         className={`songs-header__genres ${
@@ -57,12 +56,7 @@ export default class SongsHeaderGenres extends Component<Props, State> {
             >
               <Link
                 className="songs-header__genre__text"
-                to={{
-                  pathname: SONGS_PATH,
-                  search: qs.stringify({
-                    genre: gen.key,
-                  })
-                }}
+                to={ handleLinkTo('genre', gen.key) }
                >
                 { gen.key }
               </Link>

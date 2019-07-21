@@ -3,7 +3,7 @@ import { TrackActionTypes } from './../../shared/types/actions';
 import { Track } from "../../shared/types/soundCloud";
 import { FETCH_TRACK_FAILURE } from '../../constants/ActionTypes';
 import { getImageUrl } from '../../utils/ImageUtils';
-import IMAGE_SIZES from '../../constants/ImageConstants';
+import { IMAGE_SIZES_LARGE } from '../../constants/ImageConstants';
 
 
 interface stateInterface {
@@ -24,7 +24,7 @@ export default function tracksReducer(
     case FETCH_TRACKS_SUCESS:
       const tracks = action.tracks.map(t => {
         if (t.artworkUrl) {
-          t.artworkUrl = getImageUrl(t.artworkUrl, IMAGE_SIZES.LARGE);
+          t.artworkUrl = getImageUrl(t.artworkUrl, IMAGE_SIZES_LARGE);
         }
         return t;
       })

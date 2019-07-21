@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import ArtworkPlay from './ArtworkPlay';
 import Heart from '../Heart';
 import { Track } from '../../shared/types/soundCloud';
+import { getImageUrl } from '../../utils/ImageUtils';
+import { IMAGE_SIZES_LARGE } from '../../constants/ImageConstants';
 
 type Props = {
   isActive: boolean;
@@ -28,7 +30,7 @@ export default class SongsBodyCard extends Component<Props> {
           <div 
             className="songs-body-card__artwork"
             style={{
-              backgroundImage: `url(${artworkUrl})`,
+              backgroundImage: `url(${ artworkUrl && getImageUrl(artworkUrl, IMAGE_SIZES_LARGE)})`,
             }}
             >
             <ArtworkPlay 
@@ -40,7 +42,7 @@ export default class SongsBodyCard extends Component<Props> {
             <div
               className="songs-body-card__avatar"
               style={{
-                backgroundImage: `url(${avatarUrl})`,
+                backgroundImage: `url(${getImageUrl(avatarUrl, IMAGE_SIZES_LARGE)})`,
               }}
             >
             </div>

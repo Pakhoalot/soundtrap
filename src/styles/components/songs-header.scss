@@ -47,6 +47,9 @@
     
 
     .songs-header__genre__text {
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
       text-decoration: none;
       padding: 0 10px;
       color: $gray;
@@ -90,6 +93,9 @@
         font-size: 11px;
         text-transform: uppercase;
         padding: 0 10px;
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
         }
     }
 
@@ -98,6 +104,7 @@
       background-color: $lighterGray;
       .songs-header__time__text {
         color: $white;
+
       }
     }
 

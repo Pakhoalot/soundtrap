@@ -1,6 +1,6 @@
-import IMAGE_SIZES from '../constants/ImageConstants';
+import { IMAGE_SIZES_XLARGE, IMAGE_SIZES_LARGE } from "../constants/ImageConstants";
 
-type Size = typeof IMAGE_SIZES.LARGE | typeof IMAGE_SIZES.XLARGE;
+type Size = typeof IMAGE_SIZES_LARGE | typeof IMAGE_SIZES_XLARGE;
 export const getImageUrl = (s: string, size:Size ) => {
   if (!s) {
     return '';
@@ -9,10 +9,10 @@ export const getImageUrl = (s: string, size:Size ) => {
   const url = s.replace('http:', '');
 
   switch (size) {
-    case IMAGE_SIZES.LARGE:
-      return url.replace('large', IMAGE_SIZES.LARGE);
-    case IMAGE_SIZES.XLARGE:
-      return url.replace('large', IMAGE_SIZES.XLARGE);
+    case IMAGE_SIZES_LARGE:
+      return url.replace('large', IMAGE_SIZES_LARGE);
+    case IMAGE_SIZES_XLARGE:
+      return url.replace('large', IMAGE_SIZES_XLARGE);
     default:
       return url;
   }

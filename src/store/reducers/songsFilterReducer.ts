@@ -3,8 +3,8 @@ import { GENRES, TIMES } from '../../constants/PlaylistConstants';
 import { SongFilterAction } from '../../shared/types/actions';
 
 const initialState = {
-  activeGenreIndex: -1,
-  activeTimeIndex: -1,
+  activeGenreIndex: 0,
+  activeTimeIndex: 0,
   genres: GENRES,
   times: TIMES
 

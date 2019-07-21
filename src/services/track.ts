@@ -4,7 +4,7 @@ import { $axios, constructUrlWithId } from '../utils/ApiUtil';
 const camelize = require('camelize');
 
 
-export function getTrackById(trackId: string): Promise<Track> {
+export function fetchTrackById(trackId: string): Promise<Track> {
   return $axios.get(constructUrlWithId(TRACK_URL, trackId), {
     params: {
       client_id: CLIENT_ID,
@@ -14,7 +14,7 @@ export function getTrackById(trackId: string): Promise<Track> {
   })
 }
 
-export function getTracks(args?: {
+export function fetchTracks(args?: {
   filters?: TrackFilters;
 }) {
   const filters = args ? args.filters : null;
@@ -28,7 +28,7 @@ export function getTracks(args?: {
     .then(res => camelize(res.data));
 }
 
-export function getTrackSubresource(
+export function fetchTrackSubresource(
   args: {
     trackId: string;
     resName: keyof (typeof trackSubresources);
@@ -48,4 +48,8 @@ export function getTrackSubresource(
       }
     })
     .then(res => camelize(res.data));
+}
+
+export function fetchTrackStream() {
+
 }

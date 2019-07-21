@@ -1,5 +1,4 @@
 import React, { Component, ReactNodeArray } from 'react'
-import Loader from '../Loader';
 import SongsBodyCard from './SongsBodyCard';
 import { Track } from '../../shared/types/soundCloud';
 
@@ -43,7 +42,6 @@ export default class SongsBody extends Component<Props> {
           { rows }
         </div>
         <div className="songs-body__padder"></div>
-        <Loader className="loader--full" isLoading={ true }/>
       </div>
     );
   }
