@@ -49,7 +49,3 @@ export function fetchTrackSubresource(
     })
     .then(res => camelize(res.data));
 }
-
-export function fetchTrackStream() {
-
-}

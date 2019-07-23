@@ -11,12 +11,13 @@ type Props = {
   progress: number;
   volume: number;
   isPlayed: boolean;
+  canPlayed: boolean;
   onProgressChange?: (value: number) => void;
   onVolumeChange?: (value: number) => void;
   onPlayClick?: () => void;
   onBackwardClick?: () => void;
   onForwardClick?: () => void;
-  track?: Track;
+  track?: Track | null;
 };
 
 export default class Player extends Component<Props> {
@@ -30,6 +31,7 @@ export default class Player extends Component<Props> {
       onPlayClick,
       onBackwardClick,
       onForwardClick,
+      canPlayed,
     } = this.props;
     let { track } = this.props;
     // 如果没有track传入，初始化一个空的track
@@ -42,6 +44,7 @@ export default class Player extends Component<Props> {
             <BaseControlBar
               className="player__control-bar__base"
               isPlayed={isPlayed}
+              canPlayed={canPlayed}
               onPlayClick={ onPlayClick }
               onBackwardClick={ onBackwardClick }
               onForwardClick={ onForwardClick }

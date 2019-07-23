@@ -4,6 +4,7 @@ import React, { Component, MouseEventHandler } from 'react'
 type Props = {
   className?: string;
   isPlayed: boolean;
+  canPlayed: boolean;
   onPlayClick?: () => void;
   onForwardClick?: () => void;
   onBackwardClick?: () => void;
@@ -24,14 +25,14 @@ export default class BaseControlBar extends Component<Props> {
   }
 
   render() {
-    const { className, isPlayed } = this.props;
+    const { className, isPlayed, canPlayed } = this.props;
     return (
       <div className={`${className || ''}`}>
         <div className="player__button" onClick={ this.onBackwardClick }>
           <i className="player__button__icon ion-ios-skipbackward"></i>
         </div>
         <div className="player__button"  onClick={ this.onPlayClick }>
-          <i className={`player__button__icon ion-ios-${isPlayed ? 'play' : 'pause'}`}></i>
+          <i className={`player__button__icon ion-ios-${canPlayed && isPlayed ? 'pause': 'play'}`}></i>
         </div>
         <div className="player__button" onClick={ this.onForwardClick }>
           <i className="player__button__icon ion-ios-skipforward"></i>
