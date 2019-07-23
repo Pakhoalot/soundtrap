@@ -1,65 +1,61 @@
 import React, { Component, createRef } from 'react'
 import { getTrackStreamUrl } from '../../utils/trackUtil';
+import { MyThunkDispatch } from '../../shared/types/common';
+import { AppState } from '../../shared/types/states';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateCurrentTime, updateDuration, updateCanPlayed } from '../../store/actions/PlayerActions';
 
-type Props = {
-  src: string;
-  autoPlay?: boolean;
-  loop: boolean;
-  volume: number;
-  muted: boolean;
-  isPlayed: boolean;
-  preload?: 'none' | 'metadata' | 'auto';
 
-  onEnded?: () => void;
-  onProgress?: (value: number) => void;
+const mapStateToProps = (state: AppState) => {
+  return {
+    isPlayed: state.player.isPlayed,
+    loop: state.player.loop,
+    muted: state.player.muted,
+    autoPlay: state.player.autoPlay,
+    volume: state.player.volume,
+    newCurrentTime: state.player.newCurrentTime,
+  }
 }
 
-type State = Props & {
+const mapDispatchToProps = (dispatch: MyThunkDispatch) => bindActionCreators({
+  updateCurrentTime,
+  updateDuration,
+  updateCanPlayed,
+}, dispatch);
+type ownProps = {
+  src: string;
+}
+
+export type AudioProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ownProps;
+
+type State =  {
 
 };
-export default class Audio extends Component<Props, State> {
-  readonly state: State = {
-    src: this.props.src,
-    autoPlay: this.props.autoPlay,
-    loop: this.props.loop,
-    muted: this.props.muted,
-    volume: this.props.volume,
-    isPlayed: this.props.isPlayed,
-    preload: this.props.preload,
-  }
-  static defaultProps = {
-    autoPlay: true,
-  }
+class Audio extends Component<AudioProps, State> {
+  
 
   audioRef = createRef<HTMLAudioElement>();
 
-  static getDerivedStateFromProps(prevProps: Props, prevState: State) {
-    return {
-      ...prevState,
-      ...prevProps,
-      volume: Math.max(Math.min(prevProps.volume, 100), 0),
-      src: getTrackStreamUrl(prevProps.src),
-    }
-  }
   componentDidMount() {
     this.syncEverything();
     const refDom = this.getAudioRefDom();
 
     refDom.onwaiting = () => { console.log('waiting'); };
     refDom.onloadstart = () => { console.log('onloadstart'); };
-    refDom.oncanplay = () => {console.log('canplay'); };
+    refDom.oncanplay = () => { this.props.updateCanPlayed(true); console.log('canplay'); };
     refDom.onloadedmetadata = (e) => { console.log('loadedmetadata: ', e)}
     refDom.onloadeddata = (e) => {console.log('loadeddata:', e); };
     refDom.onerror = (e) => { console.log('error:', e); };
     refDom.onsuspend = () => { console.log('suspend'); }
     refDom.onprogress = (e: ProgressEvent) => {
-      console.log('progress: ', this.getAudioRefDom().buffered.length);
-      this.props.onProgress && this.props.onProgress(e.loaded);
+      console.log('progress: ', this.getAudioRefDom().buffered);
     }
     refDom.ontimeupdate = (e) => {
-      console.log('timeupdate: ', this.getAudioRefDom().currentTime);
+      this.props.updateCurrentTime(this.getAudioRefDom().currentTime);
     }
     refDom.ondurationchange = (e) => {
+      this.props.updateDuration(this.getAudioRefDom().duration);
       console.log('durationchange: ', this.getAudioRefDom().duration)
     }
     refDom.onplaying = () => {
@@ -79,12 +75,15 @@ export default class Audio extends Component<Props, State> {
     }
     
   }
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: AudioProps) {
     if(prevProps.volume !== this.props.volume) {
       this.syncVolume();
     }
     if(prevProps.isPlayed !== this.props.isPlayed) {
       this.syncPlay();
+    }
+    if(prevProps.newCurrentTime !== this.props.newCurrentTime) {
+      this.syncCurrentTime();
     }
   }
   getAudioRefDom() {
@@ -92,47 +91,45 @@ export default class Audio extends Component<Props, State> {
     if(!refDom) throw Error('audio Element not found');
     return refDom;
   }
-  emitEnd() {
-    
-  }
+
   syncEverything = () => {
     this.syncPlay();
     this.syncVolume();
   }
 
+  syncCurrentTime = () => {
+    this.props.updateCurrentTime(this.props.newCurrentTime);
+    this.getAudioRefDom().currentTime = this.props.newCurrentTime;
+  }
+
   syncPlay = () => {
-    const isPlayed = this.state.isPlayed;
+    const isPlayed = this.props.isPlayed;
     const refDom = this.getAudioRefDom();
     isPlayed ? refDom.play() : refDom.pause();
   }
   syncVolume = () => {
-    const volume = this.state.volume;
+    const volume = Math.max(Math.min(this.props.volume, 100), 0);
     const refDom = this.getAudioRefDom();
     refDom.volume = volume / 100;
   }
 
   getVolume() {
-    const refDom = this.audioRef.current;
-    
-    if(refDom) {
-      return refDom.volume;
-    } else {
-      console.warn('audio Element not found');
-    }
+    return this.getAudioRefDom().volume;
   }
 
   render() {
-    const { src, preload, autoPlay, muted, loop } = this.state;
+    const { src, autoPlay, muted, loop } = this.props;
     return (
       <audio
         id="global-audio"
         ref={ this.audioRef }
-        src={ src }
+        src={ getTrackStreamUrl(src) }
         autoPlay={autoPlay}
         loop={loop}
         muted={muted}
-        preload={ preload }/>
+        preload="auto"/>
     )
   }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(Audio);

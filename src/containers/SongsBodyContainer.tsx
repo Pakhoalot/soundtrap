@@ -8,32 +8,30 @@ import { fetchTracks } from '../services/track';
 import { Track } from '../shared/types/soundCloud';
 import InfiniteScroll from '../components/InfiniteScroll';
 import Loader from '../components/Loader';
+import { updateCurrentTrack } from '../store/actions/PlayerActions';
 
 const mapStateToProps = (state: AppState) => {
-  const activeGenre = state.songsFilter.genres[state.songsFilter.activeGenreIndex].query;
-  const activeTime = state.songsFilter.times[state.songsFilter.activeTimeIndex].key;
+  const activeGenre =
+    state.songsFilter.genres[state.songsFilter.activeGenreIndex].query;
+  const activeTime =
+    state.songsFilter.times[state.songsFilter.activeTimeIndex].key;
   return {
-    playingSongId: state.track.activeTrackId,
+    currentTrack: state.player.currentTrack,
     activeGenre,
-    activeTime,
+    activeTime
   };
 };
 
 const mapDispatchToProps = (dispatch: MyThunkDispatch) =>
-  bindActionCreators(
-    {
-      
-    },
-    dispatch
-  );
-
-export type SongsBodyContainerProps = 
-  ReturnType<typeof mapStateToProps> &
+  bindActionCreators({
+    updateCurrentTrack,
+  }, dispatch);
+export type SongsBodyContainerProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 export type SongsBodyContainerState = {
   trackList: Track[];
-  limit: number,
-  offset: number,
+  limit: number;
+  offset: number;
 };
 class SongsBodyContainer extends Component<
   SongsBodyContainerProps,
@@ -42,28 +40,24 @@ class SongsBodyContainer extends Component<
   readonly state: SongsBodyContainerState = {
     trackList: [],
     limit: 50,
-    offset: 0,
+    offset: 0
   };
 
   componentDidMount() {
     this.fetchData();
   }
 
-  componentDidUpdate(prevProps: SongsBodyContainerProps, prevState: SongsBodyContainerState) {
-    if(prevProps.activeGenre !== this.props.activeGenre) {
+  componentDidUpdate(
+    prevProps: SongsBodyContainerProps,
+    prevState: SongsBodyContainerState
+  ) {
+    if (prevProps.activeGenre !== this.props.activeGenre) {
       this.setState(() => ({
         trackList: [],
-        offset: 0,
-      }))
+        offset: 0
+      }));
       this.fetchData();
     }
-  }
-
-  static getDerivedStateFromProps(
-    nextProps: SongsBodyContainerProps,
-    prevState: SongsBodyContainerState
-  ): SongsBodyContainerState | null {
-    return null;
   }
 
   fetchData = () => {
@@ -73,42 +67,43 @@ class SongsBodyContainer extends Component<
       filters: {
         tags: activeGenre,
         limit,
-        offset, 
+        offset
       }
     }).then(tracks => {
-      this.setState((state) => ({
+      this.setState(state => ({
         trackList: [...state.trackList, ...tracks],
-        offset: state.offset + state.limit,
-      }))
-    })
-  }
+        offset: state.offset + state.limit
+      }));
+    });
+  };
 
+  handleCardClick = (track: Track) => {
+    this.props.updateCurrentTrack(track);
+  };
 
   render() {
-    const { playingSongId } = this.props;
+    const { currentTrack } = this.props;
     const { trackList } = this.state;
     return (
       <InfiniteScroll
         dataLength={trackList.length}
-        next={ this.fetchData }
-        hasMore={ true }
-        loader={ <Loader className="loader--full" isLoading={ true }/> }
-        endMessage={ <div>no more</div> }
-        refreshFunction={ ()=> console.log(`refreshFunction`) }
-        // pullDownToRefresh
-        // pullDownToRefreshContent={ <div>pulldown to refresh</div> }
-        // releaseToRefreshContent={ <div>release to refresh</div> }
-        >
-        <SongsBody songs={ trackList } playingSongId={playingSongId} />
+        next={this.fetchData}
+        hasMore={true}
+        loader={<Loader className="loader--full" isLoading={true} />}
+        endMessage={<div>no more</div>}
+        refreshFunction={() => console.log(`refreshFunction`)}
+      >
+        <SongsBody
+          tracks={trackList}
+          currentTrack={currentTrack}
+          onCardclick={this.handleCardClick}
+        />
       </InfiniteScroll>
-
-    ) 
+    );
   }
 }
 
-export default
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SongsBodyContainer)
-;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SongsBodyContainer);

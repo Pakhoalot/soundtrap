@@ -3,30 +3,32 @@ import SongsBodyCard from './SongsBodyCard';
 import { Track } from '../../shared/types/soundCloud';
 
 type Props = {
-  songs: Track[];
-  playingSongId: string;
+  tracks: Track[];
+  currentTrack: Track | null;
+  onCardclick?: (track: Track) => void;
 }
 export default class SongsBody extends Component<Props> {
   render() {
     const cardPerRow = 4;
     const { 
-      songs,
-      playingSongId,
+      tracks,
+      currentTrack,
     } = this.props;
     const rows: ReactNodeArray = [];
     let row: ReactNodeArray = [];
-    songs.forEach((song, index) => {
+    tracks.forEach((track, index) => {
       row.push(
-        <div className="row__cell" key={ song.id }>
+        <div className="row__cell" key={ track.id }>
           <SongsBodyCard 
-            isActive={ playingSongId === song.id }
+            isActive={ !!currentTrack && (currentTrack.id === track.id) }
             isPlaying={ false }
-            song={ song }
+            track={ track }
+            onCardClick={this.props.onCardclick}
             />
         </div>
       )
       // push the construct row into rows;
-      if((index % cardPerRow === cardPerRow-1) || index === songs.length-1) {
+      if((index % cardPerRow === cardPerRow-1) || index === tracks.length-1) {
         rows.push(
           <div className="row songs-body__row" key={ rows.length }>{ row }</div>
         );

@@ -1,3 +1,4 @@
+import { PlayerBaseAction } from './actions';
 import { User, Track } from './soundCloud';
 import {
   LOGIN_SUCCESS,
@@ -10,7 +11,16 @@ import {
   FETCH_TRACK_SUCESS,
   FETCH_TRACK_FAILURE,
   FETCH_TRACK_SUBRESOURCE_SUCESS,
-  FETCH_TRACK_SUBRESOURCE_FAILURE
+  FETCH_TRACK_SUBRESOURCE_FAILURE,
+  UPDATE_CURRENT_TIME,
+  TOGGLE_PLAY,
+  UPDATE_VOLUME,
+  UPDATE_CURRENT_TRACK,
+  UPDATE_DURATION,
+  UPDATE_CAN_PLAYED,
+  CURRENT_TIME_JUMP_TO,
+  PAUSE,
+  PLAY
 } from './../../constants/ActionTypes';
 import {
   WINDOW_RESIZE,
@@ -179,3 +189,49 @@ export type TrackActionTypes =
   | FetchTracksFailureAction
   | FetchTrackSubresSucessAction
   | FetchTrackSubresFailureAction
+
+
+/**
+ * player actions 
+ */
+export interface UpdateCurrentTimeAction {
+  type: typeof UPDATE_CURRENT_TIME;
+  value: number;
+  
+}
+
+export interface UpdateDurationAction {
+  type: typeof UPDATE_DURATION;
+  value: number;
+}
+export interface PlayerBaseAction {
+  type: typeof TOGGLE_PLAY | typeof PLAY | typeof PAUSE;
+}
+
+export interface UpdateVolumeAction {
+  type: typeof UPDATE_VOLUME;
+  value: number;
+}
+
+export interface UpdateCurrentTrackAction {
+  type: typeof UPDATE_CURRENT_TRACK;
+  track: Track;
+}
+
+export interface UpdateCanPlayedAction {
+  type: typeof UPDATE_CAN_PLAYED;
+  value: boolean;
+}
+
+export interface CurrentTimeJumpToAction {
+  type: typeof CURRENT_TIME_JUMP_TO;
+  value: number;
+}
+export type PlayerActionTypes =
+| UpdateCurrentTimeAction
+| PlayerBaseAction
+| UpdateVolumeAction
+| UpdateCurrentTrackAction
+| UpdateDurationAction
+| UpdateCanPlayedAction
+| CurrentTimeJumpToAction

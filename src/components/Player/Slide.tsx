@@ -4,6 +4,9 @@ type Props = {
   precentage?: number;
   className?: string;
   onChange?: (value: number) => void;
+  onMouseDown?: (e: MouseEvent) => void;
+  onMouseMove?: (v: number) => void;
+  onMouseUp?: (e: MouseEvent) => void;
 }
 
 export default class Slide extends Component<Props> {
@@ -21,7 +24,21 @@ export default class Slide extends Component<Props> {
    * @memberof Slide
    */
   handleMouseDown: MouseEventHandler = (event) => {
+    if(!this.actionTriggerd) {
+      this.props.onMouseDown && this.props.onMouseDown(event as any);
+    }
     this.actionTriggerd = true;
+  }
+  /**
+   *注册到根元素的两个处理器，当鼠标释放后直接释放这两个处理器
+   *
+   * @memberof Slide
+   */
+  handleMouseUp = (event: MouseEvent) => {
+    if(this.actionTriggerd) {
+      this.props.onMouseUp && this.props.onMouseUp(event as any);
+    }
+    this.actionTriggerd = false;
   }
   /**
    *这是一个native handler 所以在定义时要与React混合事件处理器 MouseEventHandler 区分
@@ -40,17 +57,13 @@ export default class Slide extends Component<Props> {
       const newPresentage = Math.min(
         Math.max((clientX - refDom.offsetLeft) / refDom.offsetWidth * 100, 0)
         , 100);
+      
+      // 如果出入了回调函数，先做回调。
+      this.props.onMouseMove && this.props.onMouseMove(newPresentage);
       this.onChange(newPresentage);
     })
   }
-  /**
-   *注册到根元素的两个处理器，当鼠标释放后直接释放这两个处理器
-   *
-   * @memberof Slide
-   */
-  handleMouseUp = (event: MouseEvent) => {
-    this.actionTriggerd = false;
-  }
+  
   onChange = (newPresentage: number) => {
     this.props.onChange && this.props.onChange(newPresentage);
     return;

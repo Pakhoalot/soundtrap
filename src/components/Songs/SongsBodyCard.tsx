@@ -9,7 +9,8 @@ import { IMAGE_SIZES_LARGE } from '../../constants/ImageConstants';
 type Props = {
   isActive: boolean;
   isPlaying: boolean;
-  song: Track
+  track: Track;
+  onCardClick?: (track: Track) => void;
 }
 
 export default class SongsBodyCard extends Component<Props> {
@@ -17,10 +18,10 @@ export default class SongsBodyCard extends Component<Props> {
     const {
       isActive,
       isPlaying,
-      song,
+      track,
     } = this.props;
 
-    const { artworkUrl, title, user } = song;
+    const { artworkUrl, title, user } = track;
     const { avatarUrl, username } = user as any;
     return (
       <div className={`songs-body-card ${
@@ -32,6 +33,7 @@ export default class SongsBodyCard extends Component<Props> {
             style={{
               backgroundImage: `url(${ artworkUrl && getImageUrl(artworkUrl, IMAGE_SIZES_LARGE)})`,
             }}
+            onClick={ () => this.props.onCardClick && this.props.onCardClick(track) }
             >
             <ArtworkPlay 
               isActive={isActive}
