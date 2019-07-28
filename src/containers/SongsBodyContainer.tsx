@@ -9,6 +9,7 @@ import { Track } from '../shared/types/soundCloud';
 import InfiniteScroll from '../components/InfiniteScroll';
 import Loader from '../components/Loader';
 import { updateCurrentTrack } from '../store/actions/PlayerActions';
+import { TimeFilterCalculator } from '../utils/DateUtil';
 
 const mapStateToProps = (state: AppState) => {
   const activeGenre =
@@ -17,8 +18,9 @@ const mapStateToProps = (state: AppState) => {
     state.songsFilter.times[state.songsFilter.activeTimeIndex].key;
   return {
     currentTrack: state.player.currentTrack,
+    isPlayed: state.player.isPlayed,
     activeGenre,
-    activeTime
+    activeTime,
   };
 };
 
@@ -43,20 +45,16 @@ class SongsBodyContainer extends Component<
     offset: 0
   };
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
   componentDidUpdate(
     prevProps: SongsBodyContainerProps,
     prevState: SongsBodyContainerState
   ) {
-    if (prevProps.activeGenre !== this.props.activeGenre) {
+    if (prevProps.activeGenre !== this.props.activeGenre
+      || prevProps.activeTime !== this.props.activeTime) {
       this.setState(() => ({
         trackList: [],
         offset: 0
       }));
-      this.fetchData();
     }
   }
 
@@ -66,6 +64,7 @@ class SongsBodyContainer extends Component<
     fetchTracks({
       filters: {
         tags: activeGenre,
+        'created_at[from]': TimeFilterCalculator(+activeTime),
         limit,
         offset
       }
@@ -91,12 +90,13 @@ class SongsBodyContainer extends Component<
         hasMore={true}
         loader={<Loader className="loader--full" isLoading={true} />}
         endMessage={<div>no more</div>}
-        refreshFunction={() => console.log(`refreshFunction`)}
+        onRefresh={() => console.log(`refreshFunction`)}
       >
         <SongsBody
           tracks={trackList}
           currentTrack={currentTrack}
           onCardclick={this.handleCardClick}
+          isPlayed
         />
       </InfiniteScroll>
     );

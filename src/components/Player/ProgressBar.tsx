@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Slide from './Slide';
-import { SecToMin } from '../../utils/Date.Util';
+import { SecToMin } from '../../utils/DateUtil';
 
 type Props = {
   className?: string;

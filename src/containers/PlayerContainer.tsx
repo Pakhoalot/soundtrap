@@ -5,8 +5,6 @@ import { bindActionCreators } from 'redux';
 import { MyThunkDispatch } from '../shared/types/common';
 import Player from '../components/Player';
 import Audio from '../components/Player/Audio';
-import { Track } from '../shared/types/soundCloud';
-import { fetchTrackById } from '../services/track';
 import { updateCurrentTrack } from '../store/actions/PlayerActions';
 
 const mapStateToProps = (state: AppState) => {
@@ -30,7 +28,7 @@ class PlayerContainer extends Component<PlayerContainerProps> {
         <Audio
           src={(currentTrack && currentTrack.streamUrl) || ''}
           />
-        <Player
+        <Player       
           track={ currentTrack }
         />  
       </div>

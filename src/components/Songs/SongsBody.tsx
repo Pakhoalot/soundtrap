@@ -6,6 +6,7 @@ type Props = {
   tracks: Track[];
   currentTrack: Track | null;
   onCardclick?: (track: Track) => void;
+  isPlayed: boolean;
 }
 export default class SongsBody extends Component<Props> {
   render() {
@@ -13,6 +14,7 @@ export default class SongsBody extends Component<Props> {
     const { 
       tracks,
       currentTrack,
+      isPlayed,
     } = this.props;
     const rows: ReactNodeArray = [];
     let row: ReactNodeArray = [];
@@ -21,7 +23,7 @@ export default class SongsBody extends Component<Props> {
         <div className="row__cell" key={ track.id }>
           <SongsBodyCard 
             isActive={ !!currentTrack && (currentTrack.id === track.id) }
-            isPlaying={ false }
+            isPlaying={ isPlayed }
             track={ track }
             onCardClick={this.props.onCardclick}
             />

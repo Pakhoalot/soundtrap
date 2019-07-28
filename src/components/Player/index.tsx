@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import Slide from './Slide';
 import { Track } from '../../shared/types/soundCloud';
 import { getVoidTrack } from '../../utils/trackUtil';
 import StatusBar from './StatusBar';
-import BaseControlBar from './BaseControlBar';
 import MenuButton from './MenuButton';
 import VolumeBarContainer from '../../containers/player/VolumeBarContainer';
 import BaseControlBarContainer from '../../containers/player/BaseControlBarContainer';

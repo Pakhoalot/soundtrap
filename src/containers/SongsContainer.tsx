@@ -24,7 +24,7 @@ export type SongsContainerProps =  ReturnType<typeof mapStateToProps> & ReturnTy
 
 export class SongsContainer extends Component<SongsContainerProps> {
   
-  componentDidUpdate() {
+  syncRouterQuery = () => {
     const { genres, times, location, changeGenre, changeTime } = this.props;
     const search: any = queryStringfy.parse(location.search);
     
@@ -43,6 +43,14 @@ export class SongsContainer extends Component<SongsContainerProps> {
       }, -1);
       changeTime(timeIndex);
     }
+  }
+
+  componentDidMount() {
+    this.syncRouterQuery();
+  }
+
+  componentDidUpdate() {
+    this.syncRouterQuery();
   }
 
   render() {
