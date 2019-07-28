@@ -31,15 +31,9 @@ export default class InfiniteScroll extends Component<Props, State> {
     if (this.props.onScroll) {
       requestAnimationFrame(() => this.props.onScroll && this.props.onScroll(event));
     }
-
-    const target = this.props.height
-      ? event.target
-      : document.documentElement.scrollTop
-      ? document.documentElement
-      : document.body;
     if (this.state.actionTriggered) return;
 
-    const atBottom = this.isElementAtBottom(target);
+    const atBottom = this.isElementAtBottom();
     if (atBottom && this.props.hasMore) {
       this.fetchList();
     }
@@ -67,12 +61,18 @@ export default class InfiniteScroll extends Component<Props, State> {
     return window;
   }
 
-  isElementAtBottom(target: any) {
-    const scrollThreshold = this.props.scrollThreshold || 200
+  isElementAtBottom() {
+    const scrollThreshold = this.props.scrollThreshold || 200;
+    const scrollbleNode = this.getScrollableNode();
+    const target = scrollbleNode instanceof Window ? 
+      document.documentElement.scrollTop ?
+      document.documentElement :
+      document.body : 
+      scrollbleNode;
     const clientHeight =
-      target === document.body || target
-        ? window.screen.availHeight
-        : target.clientHeight;
+      target === document.documentElement ? window.innerHeight : target.clientHeight;
+    
+    
     return (
       target.scrollTop + clientHeight >= target.scrollHeight - scrollThreshold
     );
