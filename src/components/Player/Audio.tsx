@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: MyThunkDispatch) => bindActionCreators({
   updateCanPlayed,
 }, dispatch);
 type ownProps = {
-  src: string;
+  src: string | undefined;
 }
 
 export type AudioProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & ownProps;
@@ -123,7 +123,7 @@ class Audio extends Component<AudioProps, State> {
       <audio
         id="global-audio"
         ref={ this.audioRef }
-        src={ getTrackStreamUrl(src) }
+        src={ src ? getTrackStreamUrl(src) : undefined }
         autoPlay={autoPlay}
         loop={loop}
         muted={muted}

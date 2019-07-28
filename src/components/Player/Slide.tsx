@@ -7,6 +7,7 @@ type Props = {
   onMouseDown?: (e: MouseEvent) => void;
   onMouseMove?: (v: number) => void;
   onMouseUp?: (e: MouseEvent) => void;
+  onMouseClick?: (v: number) => void;
 }
 
 export default class Slide extends Component<Props> {
@@ -16,6 +17,19 @@ export default class Slide extends Component<Props> {
 
   static defaultProps = {
     precentage: 0,
+  }
+  handleRangeClick: MouseEventHandler = (event) => {
+    const { clientX } = event;
+    const refDom = this.getRefDom();
+
+    // 如果有了回调函数，先做回调。
+    requestAnimationFrame(() => {
+      const newPresentage = Math.min(
+        Math.max((clientX - refDom.offsetLeft) / refDom.offsetWidth * 100, 0)
+        , 100);
+      this.props.onMouseClick && this.props.onMouseClick(newPresentage);
+      this.onChange(newPresentage);
+    })
   }
   /**
    *当handle被按下是，在文档根元素加入两个监听器和处理器，用于监听之后的mousemove 和 mouseup 动作
@@ -47,18 +61,15 @@ export default class Slide extends Component<Props> {
    */
   handleMouseMove = (event: MouseEvent) => {
     if(!this.actionTriggerd) return;
+    
     const { clientX } = event;
-    const refDom = this.rootRef.current;
-    if(!refDom) {
-      console.warn('slider root ref not exist');
-      return;
-    }
+    const refDom = this.getRefDom();
     requestAnimationFrame(() => {
       const newPresentage = Math.min(
         Math.max((clientX - refDom.offsetLeft) / refDom.offsetWidth * 100, 0)
         , 100);
       
-      // 如果出入了回调函数，先做回调。
+      // 如果有了回调函数，先做回调。
       this.props.onMouseMove && this.props.onMouseMove(newPresentage);
       this.onChange(newPresentage);
     })
@@ -69,6 +80,13 @@ export default class Slide extends Component<Props> {
     return;
   }
 
+  getRefDom() {
+    const refDom = this.rootRef.current;
+    if(!refDom) {
+      throw Error('slider root ref not exist');
+    }
+    return refDom;
+  }
   componentDidMount() {
     document.addEventListener('mousemove', this.handleMouseMove);
     document.addEventListener('mouseup', this.handleMouseUp);
@@ -84,11 +102,16 @@ export default class Slide extends Component<Props> {
     return (
       <div className={ `slider ${className || '' }` }
         ref={this.rootRef}
-        role="button">
-        <div className="slider__range"></div>
+        role="button"
+        
+        >
+        <div className="slider__range"
+          onClick={this.handleRangeClick}>
+        </div>
         <div className="slider__range slider__range--precentage" style={{
           width: `${precentage}%`,
-        }}></div>
+        }}
+        onClick={this.handleRangeClick}></div>
         <div className="slider__handle" style={{
           left: `${precentage}%`
         }}

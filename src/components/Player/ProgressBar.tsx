@@ -11,6 +11,7 @@ type Props = {
   onProgressMouseDown?: () => void;
   onProgressMouseUp?: () => void;
   onProgressMove?: (value: number) => void;
+  onProgressClick?:(value: number) => void;
 };
 export default class ProgressBar extends Component<Props> {
   render() {
@@ -22,7 +23,8 @@ export default class ProgressBar extends Component<Props> {
       onProgressChange,
       onProgressMouseDown,
       onProgressMouseUp,
-      onProgressMove
+      onProgressMove,
+      onProgressClick
     } = this.props;
     return (
       <div className={className}>
@@ -33,6 +35,7 @@ export default class ProgressBar extends Component<Props> {
           onMouseDown={onProgressMouseDown}
           onMouseUp={onProgressMouseUp}
           onMouseMove={onProgressMove}
+          onMouseClick={onProgressClick}
         />
         <span className="player__time">
           {SecToMin(currentTime)} / {SecToMin(duration)}

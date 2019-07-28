@@ -26,7 +26,7 @@ class PlayerContainer extends Component<PlayerContainerProps> {
     return (
       <div>
         <Audio
-          src={(currentTrack && currentTrack.streamUrl) || ''}
+          src={(currentTrack && currentTrack.streamUrl) || undefined}
           />
         <Player       
           track={ currentTrack }

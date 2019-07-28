@@ -39,6 +39,7 @@ class ProgressBarContainer extends Component<ContainerProps, State> {
       progressDouble: value,
     })
   }
+
   handleProgressMouseDown = () => {
     this.setState({
       progressMoveTriggered: true,
@@ -46,11 +47,14 @@ class ProgressBarContainer extends Component<ContainerProps, State> {
     })
   }
   handleProgressMouseUp = () => {
-    console.log('mouseup');
     this.props.currentTimeJumpTo(this.state.progressDouble * this.props.duration / 100);
     this.setState({
       progressMoveTriggered: false,
     })
+  }
+
+  handleProgresssClick = (value: number) => {
+    this.props.currentTimeJumpTo(value * this.props.duration / 100);
   }
 
   render() {
@@ -65,6 +69,7 @@ class ProgressBarContainer extends Component<ContainerProps, State> {
         onProgressChange={ this.handleProgressChanged }
         onProgressMouseDown={this.handleProgressMouseDown}
         onProgressMouseUp={this.handleProgressMouseUp}
+        onProgressClick={this.handleProgresssClick}
       />
     )
   }

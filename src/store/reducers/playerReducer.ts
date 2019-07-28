@@ -68,7 +68,7 @@ export default function songsFilterReducer(
     case TOGGLE_PLAY:
       return {
         ...state,
-        isPlayed: !state.isPlayed
+        isPlayed: state.canPlayed && !state.isPlayed
       };
     case UPDATE_VOLUME:
       return {
@@ -82,6 +82,7 @@ export default function songsFilterReducer(
         currentTime: 0,
         newCurrentTime: 0,
         isPlayed: true,
+        canPlayed: false,
         history: state.history.some(t => t.id === action.track)
           ? state.history
           : [...state.history, action.track]
