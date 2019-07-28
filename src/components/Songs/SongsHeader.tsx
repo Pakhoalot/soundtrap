@@ -7,8 +7,8 @@ import queryStringify from 'querystringify';
 import { LocationDescriptor } from 'history';
 
 type SongsHeaderProps = {
-  activeGenreIndex: number;
-  activeTimeIndex: number;
+  activeGenreIndex: number | null;
+  activeTimeIndex: number | null;
   genres: typeof GENRES;
   times: typeof TIMES;
 }
@@ -25,10 +25,10 @@ export default class SongsHeader extends Component<SongsHeaderProps> {
     const { activeGenreIndex, genres, activeTimeIndex, times } = this.props;
     if(query === 'time') {
       Object.assign(result.search, { time: key });
-      if(activeGenreIndex !== -1) Object.assign(result.search, {genre: genres[activeGenreIndex].key});
+      if(activeGenreIndex !== null) Object.assign(result.search, {genre: genres[activeGenreIndex].key});
     } else if (query === 'genre') {
       Object.assign(result.search, { genre: key });
-      if(activeTimeIndex !== -1) Object.assign(result.search, {  time: times[activeTimeIndex].key });
+      if(activeTimeIndex !== null) Object.assign(result.search, {  time: times[activeTimeIndex].key });
     }
 
     result.search = queryStringify.stringify(result.search);

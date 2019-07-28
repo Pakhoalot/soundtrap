@@ -2,9 +2,15 @@ import { CHANGE_TIME,CHANGE_GENRE } from './../../constants/ActionTypes';
 import { GENRES, TIMES } from '../../constants/PlaylistConstants';
 import { SongFilterAction } from '../../shared/types/actions';
 
-const initialState = {
-  activeGenreIndex: 0,
-  activeTimeIndex: 0,
+type State = {
+  activeGenreIndex: number | null;
+  activeTimeIndex: number | null,
+  genres: typeof GENRES,
+  times: typeof TIMES
+}
+const initialState: State = {
+  activeGenreIndex: null,
+  activeTimeIndex: null,
   genres: GENRES,
   times: TIMES
 
@@ -13,7 +19,7 @@ const initialState = {
 export default function songsFilterReducer(
   state = initialState,
   action: SongFilterAction,
-): typeof initialState {
+): State {
   switch (action.type) {
     case CHANGE_GENRE: 
       return {

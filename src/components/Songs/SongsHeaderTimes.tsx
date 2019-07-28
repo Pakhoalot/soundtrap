@@ -5,7 +5,7 @@ import { LocationDescriptor } from 'history';
 
 
 type Props = {
-  activeIndex: number;
+  activeIndex: number | null;
   times: typeof TIMES;
   handleLinkTo: (query: string, key: string) => LocationDescriptor;
 };

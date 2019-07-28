@@ -13,9 +13,13 @@ import { TimeFilterCalculator } from '../utils/DateUtil';
 
 const mapStateToProps = (state: AppState) => {
   const activeGenre =
-    state.songsFilter.genres[state.songsFilter.activeGenreIndex].query;
+    state.songsFilter.activeGenreIndex !== null
+    ? state.songsFilter.genres[state.songsFilter.activeGenreIndex].query 
+    : null;
   const activeTime =
-    state.songsFilter.times[state.songsFilter.activeTimeIndex].key;
+    state.songsFilter.activeTimeIndex !== null
+    ? state.songsFilter.times[state.songsFilter.activeTimeIndex].key
+    : null;
   return {
     currentTrack: state.player.currentTrack,
     isPlayed: state.player.isPlayed,
@@ -34,6 +38,7 @@ export type SongsBodyContainerState = {
   trackList: Track[];
   limit: number;
   offset: number;
+  hasMore: boolean;
 };
 class SongsBodyContainer extends Component<
   SongsBodyContainerProps,
@@ -41,8 +46,9 @@ class SongsBodyContainer extends Component<
 > {
   readonly state: SongsBodyContainerState = {
     trackList: [],
-    limit: 50,
-    offset: 0
+    limit: 30,
+    offset: 0,
+    hasMore: true,
   };
 
   componentDidUpdate(
@@ -61,17 +67,19 @@ class SongsBodyContainer extends Component<
   fetchData = () => {
     const { activeGenre, activeTime } = this.props;
     const { offset, limit } = this.state;
-    fetchTracks({
+
+    return fetchTracks({
       filters: {
-        tags: activeGenre,
-        'created_at[from]': TimeFilterCalculator(+activeTime),
         limit,
-        offset
+        offset,
+        tags: activeGenre ? activeGenre : undefined,
+        'created_at[from]': activeTime ? TimeFilterCalculator(+activeTime): undefined,
       }
     }).then(tracks => {
       this.setState(state => ({
         trackList: [...state.trackList, ...tracks],
-        offset: state.offset + state.limit
+        offset: state.offset + state.limit,
+        hasMore: !!tracks.length,
       }));
     });
   };
@@ -85,9 +93,8 @@ class SongsBodyContainer extends Component<
     const { trackList } = this.state;
     return (
       <InfiniteScroll
-        dataLength={trackList.length}
         next={this.fetchData}
-        hasMore={true}
+        hasMore={this.state.hasMore}
         loader={<Loader className="loader--full" isLoading={true} />}
         endMessage={<div>no more</div>}
         onRefresh={() => console.log(`refreshFunction`)}

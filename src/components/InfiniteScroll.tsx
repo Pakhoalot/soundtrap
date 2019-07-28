@@ -2,44 +2,34 @@ import React, { Component, ReactNode } from 'react';
 import throttle from 'lodash/throttle';
 
 type Props = {
-  dataLength: number;
-  next: () => any;
+  next: () => Promise<any>;
+  hasMore: boolean;
   className?: string;
   style?: any;
   height?: number;
-  hasMore?: boolean;
   loader?: ReactNode;
   endMessage?: ReactNode;
   scrollableTarget?: ReactNode;
   scrollThreshold?: number;
   onRefresh?: () => void;
   onScroll?: (event: MouseEvent) => any;
-  key?: string;
-  initialScrollY?: number;
 };
 
 type State = {
-  showLoader: boolean;
   actionTriggered: boolean;
 };
 export default class InfiniteScroll extends Component<Props, State> {
   private _contentRef = React.createRef<HTMLDivElement>();
-  private _scrollableNode: HTMLElement | Window | null = null;
+  private _scrollableNode!: HTMLElement | Window;
 
 
   readonly state: State = {
-    showLoader: false,
     actionTriggered: false,
   };
 
-  onStart = (event: MouseEvent | TouchEvent) => {};
-
-  onMove = (event: MouseEvent | TouchEvent) => {};
-  onEnd = () => {};
-
   onScrollListener = (event: MouseEvent) => {
     if (this.props.onScroll) {
-      setTimeout(() => this.props.onScroll && this.props.onScroll(event), 0);
+      requestAnimationFrame(() => this.props.onScroll && this.props.onScroll(event));
     }
 
     const target = this.props.height
@@ -51,14 +41,22 @@ export default class InfiniteScroll extends Component<Props, State> {
 
     const atBottom = this.isElementAtBottom(target);
     if (atBottom && this.props.hasMore) {
-      this.setState({
-        actionTriggered: true,
-        showLoader: true
-      });
-      this.props.next();
+      this.fetchList();
     }
   };
 
+  fetchList = () => {
+    if(this.state.actionTriggered) return;
+    this.setState({
+      actionTriggered: true,
+    });
+    this.props.next()
+    .then(() => {
+      this.setState({
+        actionTriggered: false,
+      })
+    });
+  }
   throttleOnScrollListener = throttle(this.onScrollListener, 150);
 
   getScrollableTarget() {
@@ -84,55 +82,36 @@ export default class InfiniteScroll extends Component<Props, State> {
    * 判定该content是否没有足够的content以撑起整个页面，修复当页面首次加载内容不足以显示scroll，而后scroll不再获取内容的bug
    * @param target 
    */
-  isContentNotEnoughHigh(target: any) {
-    console.log('content not high enough');
-    if(this.getContentDom().scrollHeight < target.clientHeight) {
-      return false;
-    }
+  isContentNotEnoughHigh() {
+    const scrollbleNode = this.getScrollableNode();
+    const innerHeight = scrollbleNode instanceof Window ? window.innerHeight : scrollbleNode.clientHeight;
+    return this.getContentDom().scrollHeight < innerHeight;
   }
 
   getContentDom() {
     if(this._contentRef.current) return this._contentRef.current;
     else throw Error('contentRef lost');
   }
+  getScrollableNode() {
+    if(this._scrollableNode) return this._scrollableNode;
+    else throw Error('scrollableNode lost');
+  }
+
   componentDidMount() {
-    this._scrollableNode = this.props.height
-      ? this._contentRef.current!
-      : this.getScrollableTarget();
+    this._scrollableNode = this.getScrollableTarget();
     this._scrollableNode.addEventListener('scroll', this
       .throttleOnScrollListener as any);
     // 首先获取足够的内容，撑起整个页面。
 
-    if(this.isContentNotEnoughHigh && this.props.hasMore) {
-      this.setState({
-        actionTriggered: true,
-        showLoader: true,
-      })
-      this.props.next();
-    }
-    if (this.props.initialScrollY) {
-      this._scrollableNode.scrollTo(0, this.props.initialScrollY);
+    if(this.isContentNotEnoughHigh() && this.props.hasMore) {
+      this.fetchList();
     }
   }
   componentDidUpdate(prevProps: Props) {
-    if (
-      this.props.key === prevProps.key &&
-      this.props.dataLength === prevProps.dataLength
-    )
-      return;
+    if(this.isContentNotEnoughHigh() && this.props.hasMore) {
+      this.fetchList();
+    }
 
-    this.setState({
-      showLoader: false,
-      actionTriggered: false,
-    });
-
-    // if(this.isContentNotEnoughHigh && this.props.hasMore) {
-    //   this.setState({
-    //     actionTriggered: true,
-    //     showLoader: true,
-    //   })
-    //   this.props.next();
-    // }
   }
   componentWillUnmount() {
     this._scrollableNode &&
@@ -153,7 +132,7 @@ export default class InfiniteScroll extends Component<Props, State> {
 
         >
           {this.props.children}
-          {this.state.showLoader && this.props.hasMore && this.props.loader}
+          {this.state.actionTriggered && this.props.hasMore && this.props.loader}
           {!this.props.hasMore && this.props.endMessage}
         </div>
       </div>

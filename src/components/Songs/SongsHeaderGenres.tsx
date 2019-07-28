@@ -9,7 +9,7 @@ type State = {
 };
 
 type Props = {
-  activeIndex: number;
+  activeIndex: number | null;
   genres: typeof GENRES;
   handleLinkTo: (query:string, key: string) => LocationDescriptor;
 };
@@ -41,7 +41,7 @@ export default class SongsHeaderGenres extends Component<Props, State> {
           tabIndex={0}
         >
           { 
-            genres[activeIndex]
+            activeIndex && genres[activeIndex]
             ? genres[activeIndex].key
             : 'genre' 
           }
