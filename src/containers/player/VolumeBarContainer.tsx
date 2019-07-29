@@ -17,17 +17,29 @@ const mapDispatchToProps = (dispatch: MyThunkDispatch) => bindActionCreators({
 }, dispatch);
 export type VolumeBarContainerProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class VolumeBarContainer extends Component<VolumeBarContainerProps> {
-  
+type State = {
+  volumeDouble: number;
+}
+class VolumeBarContainer extends Component<VolumeBarContainerProps, State> {
+  readonly state: State = {
+    volumeDouble: 100,
+  }
   handleVolumeChanged= (value: number) => {
     this.props.updateVolume(value);
   }
 
+  handleButtonClick = () => {
+    this.setState({
+      volumeDouble: this.props.volume,
+    })
+    this.props.updateVolume(this.props.volume ? 0 : this.state.volumeDouble );
+  }
   render() {
     return (
       <VolumeBar 
         volume={this.props.volume}
         onVolumeChange={this.handleVolumeChanged}
+        onButtonClick={this.handleButtonClick}
       />
     )
   }
